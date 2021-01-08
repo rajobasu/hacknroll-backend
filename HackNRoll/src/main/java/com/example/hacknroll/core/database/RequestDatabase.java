@@ -5,6 +5,7 @@ import java.util.SortedSet;
 
 import com.example.hacknroll.core.dataitems.Match;
 import com.example.hacknroll.core.dataitems.Request;
+import com.example.hacknroll.core.dataitems.User;
 
 public interface RequestDatabase extends Database {
 	void addRequest(Request request);
@@ -17,7 +18,9 @@ public interface RequestDatabase extends Database {
 
 	void removePairing(Match match);
 
-	List<Match> searchMatchByUserID(long userID);
+	List<Request> searchMatchByUserID(long userID);
 
-	List<Match> searchMatchByRequestID(long requestID);
+	List<User> searchMatchByRequestID(long requestID);
+
+	List<Request> searchRequestsByUserID(long userID);
 }

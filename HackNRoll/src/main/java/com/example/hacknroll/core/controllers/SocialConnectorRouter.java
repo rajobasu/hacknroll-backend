@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.hacknroll.core.SocialRequestHandler;
 import com.example.hacknroll.core.dataitems.Request;
+import com.example.hacknroll.core.dataitems.User;
 
 @RestController
 @RequestMapping("/social")
 @CrossOrigin(origins = "http://localhost:3000")
 public class SocialConnectorRouter {
-	
+
 	@RequestMapping(value = "/helloworld", method = GET)
 	@ResponseBody
 	public String index() {
@@ -32,6 +33,7 @@ public class SocialConnectorRouter {
 			@RequestParam("user_id") long userID) {
 
 		Request toAdd = new Request(userID, title, description, Instant.now().plusSeconds(84094802));
+		
 		try {
 			return SocialRequestHandler.getInstance().addRequest(toAdd);
 		} catch (Exception e) {
@@ -39,7 +41,23 @@ public class SocialConnectorRouter {
 			throw e;
 		}
 	}
+
+	@RequestMapping(value = "/requestsMade", method = POST)
+	@ResponseBody
+	public List<Request> getRequestsByUser(@RequestParam("user_id") long userID) {
+
+		var x = SocialRequestHandler.getInstance().getAllRequestsByUserID(userID);
+		System.out.println(x);
+		return x;
+	}
 	
+
+	@RequestMapping(value = "/matchesrequest", method = POST)
+	@ResponseBody
+	public List<User> getUsersByRequestID(@RequestParam("request_id") long requestID) {
+
+		return SocialRequestHandler.getInstance().getMatchesByRequestID(requestID);
+	}
 	
 
 	@RequestMapping("/remove")

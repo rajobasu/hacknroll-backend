@@ -10,25 +10,27 @@ import com.example.hacknroll.core.LoginHandler;
 
 @Component
 public class LoginCheckerInterceptor implements HandlerInterceptor {
-	private boolean addHeaderInfo(HttpServletResponse response) {
+	private void addHeaderInfo(HttpServletResponse response, boolean... x) {
 		System.out.println(response.getHeaderNames());
 		System.out.println(response.getHeaders("Access-Control-Allow-Credentials"));
 		
 		response.addHeader("Access-Control-Allow-Credentials","true");
 		System.out.println(response.getHeaders("Access-Control-Allow-Credentials"));
-		return true;
+		
 	}
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		
+		addHeaderInfo(response);
 //		long startTime = System.currentTimeMillis();
 //		logger.info(
 //				"Request URL::" + request.getRequestURL().toString() + ":: Start Time=" + System.currentTimeMillis());
 		if (request.getMethod().equalsIgnoreCase("POST")) {
 
 			if (request.getServletPath().equals("/login") || request.getServletPath().equals("/signup")) {
-				return addHeaderInfo(response);
+				return true;
 			}
 			// System.out.println(request.getServletPath() + " g ");
 			try {
@@ -40,7 +42,7 @@ public class LoginCheckerInterceptor implements HandlerInterceptor {
 				return false;
 			}
 		} else {
-			return addHeaderInfo(response);
+			return true;
 		}
 	}
 

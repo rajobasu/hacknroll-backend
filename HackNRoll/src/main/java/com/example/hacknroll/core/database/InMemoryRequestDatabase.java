@@ -1,13 +1,16 @@
 package com.example.hacknroll.core.database;
 
+import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.stream.Collectors;
 
 import com.example.hacknroll.core.dataitems.Match;
 import com.example.hacknroll.core.dataitems.Request;
+import com.example.hacknroll.core.dataitems.User;
 
 public class InMemoryRequestDatabase implements RequestDatabase {
 
@@ -15,11 +18,12 @@ public class InMemoryRequestDatabase implements RequestDatabase {
 	private ConcurrentSkipListSet<Match> matchesSortedByRequestID;
 	private ConcurrentSkipListSet<Request> activeRequests;
 
-	
+	private Map<Long, Request> map;
 	
 	@Override
 	synchronized public void addRequest(Request request) {
 		activeRequests.add(request);
+		map.put(request.getID(), request);
 	}
 
 	@Override
@@ -53,18 +57,24 @@ public class InMemoryRequestDatabase implements RequestDatabase {
 
 		matchesSortedByRequestID = new ConcurrentSkipListSet<>(
 				(x, y) -> (int) Math.signum(x.getRequestID() - y.getRequestID()));
+		map = new Hashtable<>();
 	}
 
 	@Override
-	public List<Match> searchMatchByUserID(long userID) {
+	public List<Request> searchMatchByUserID(long userID) {
 		return matchesSortedByUserID.stream().filter(x -> x.getUserID() == userID)
-				.collect(Collectors.toCollection(LinkedList::new));
+				.map(x -> map.get(x.getRequestID())).collect(Collectors.toCollection(LinkedList::new));
 	}
 
 	@Override
-	public List<Match> searchMatchByRequestID(long requestID) {
-
-		return matchesSortedByRequestID.stream().filter(x -> x.getRequestID() == requestID)
+	public List<User> searchMatchByRequestID(long requestID) {
+		
+		return matchesSortedByRequestID.stream().filter(x -> x.getRequestID() == requestID).map(x -> UserDatabase.getInstance().getUserInfo(x.getUserID()))
 				.collect(Collectors.toCollection(LinkedList::new));
+	}
+	
+	@Override
+	public List<Request> searchRequestsByUserID(long userID) {
+		return activeRequests.stream().filter(x -> x.getUserID() == userID).collect(Collectors.toCollection(LinkedList::new));
 	}
 }

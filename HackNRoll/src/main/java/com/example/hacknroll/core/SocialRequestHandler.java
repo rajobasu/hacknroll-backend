@@ -60,4 +60,16 @@ public class SocialRequestHandler {
 	public void login(String username, String password) {
 		this.loginHandler.login(username, password);
 	}
+
+	public List<Request> getAllRequestsByUserID(long userid) {
+		return this.requestDB.searchRequestsByUserID(userid);
+	}
+
+	public List<User> getMatchesByRequestID(long id) {
+		return this.requestDB.searchMatchByRequestID(id);
+	}
+
+	public List<Request> getMatchesByUserID(long id) {
+		return this.requestDB.searchMatchByUserID(id);
+	}
 }

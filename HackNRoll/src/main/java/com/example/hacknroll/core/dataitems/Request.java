@@ -38,4 +38,9 @@ public class Request extends Entity {
 	public Instant getEndTime() {
 		return endTime;
 	}
+
+	@Override
+	public String toString() {
+		return "RESPONSE : " + title + ":" + description + ":" + endTime;
+	}
 }
