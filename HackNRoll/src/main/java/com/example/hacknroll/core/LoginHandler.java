@@ -26,7 +26,10 @@ public class LoginHandler {
 		if (user == null) {
 			return null;
 		} else if (user.login(password)) {
-			return new AccessToken(generateAccessToken(), user);
+			
+			long x = generateAccessToken();
+			accessTokens.put(user.getID(), x);
+			return new AccessToken(x, user);
 		} else {
 			return null;
 		}

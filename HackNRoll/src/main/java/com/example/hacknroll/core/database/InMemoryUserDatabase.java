@@ -11,7 +11,7 @@ public class InMemoryUserDatabase extends UserDatabase {
 	private Map<String, Long> usernameUserIDTable;
 
 	protected InMemoryUserDatabase() {
-
+		initDatabase();
 	}
 
 	@Override

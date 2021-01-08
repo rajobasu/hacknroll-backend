@@ -15,6 +15,8 @@ public class InMemoryRequestDatabase implements RequestDatabase {
 	private ConcurrentSkipListSet<Match> matchesSortedByRequestID;
 	private ConcurrentSkipListSet<Request> activeRequests;
 
+	
+	
 	@Override
 	synchronized public void addRequest(Request request) {
 		activeRequests.add(request);

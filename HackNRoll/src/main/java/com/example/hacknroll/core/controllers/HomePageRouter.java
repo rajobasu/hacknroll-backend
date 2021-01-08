@@ -11,6 +11,7 @@ import com.example.hacknroll.core.LoginHandler;
 import com.example.hacknroll.core.dataitems.User;
 
 @RestController
+@RequestMapping("/")
 public class HomePageRouter {
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
