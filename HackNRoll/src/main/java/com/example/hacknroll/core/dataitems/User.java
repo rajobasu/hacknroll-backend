@@ -1,17 +1,15 @@
-package com.example.hacknroll.core;
+package com.example.hacknroll.core.dataitems;
 
-public class User {
+public class User extends Entity{
 	private String username;
-	private long userID;
 	private String telegramID;
 	private static long USER_ID_COUNT = 0;
 	
 	
 	public User(String username, String telegramID) {
-		super();
+		super(USER_ID_COUNT++);
 		this.username = username;
 		this.telegramID = telegramID;
-		this.userID = USER_ID_COUNT++;
 	}
 
 
@@ -21,7 +19,7 @@ public class User {
 
 
 	public long getUserID() {
-		return userID;
+		return id;
 	}
 
 

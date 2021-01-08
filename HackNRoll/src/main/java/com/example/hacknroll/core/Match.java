@@ -1,5 +1,8 @@
 package com.example.hacknroll.core;
 
+import com.example.hacknroll.core.dataitems.Request;
+import com.example.hacknroll.core.dataitems.User;
+
 public class Match {
 	private Request request;
 	private User user;
@@ -14,7 +17,11 @@ public class Match {
 	public User getUser() {
 		return user;
 	}
-	
-	
+	public long getUserID() {
+		return user.getID();
+	}
+	public long getRequestID() {
+		return request.getID();
+	}
 	
 }

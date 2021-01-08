@@ -1,20 +1,22 @@
-package com.example.hacknroll.core;
+package com.example.hacknroll.core.dataitems;
 
 import java.time.Instant;
 
-public class Request {
+public class Request extends Entity{
 	private long userID;
-	private long requestID;
 	private String title;
 	private String description;
 	private Instant endTime;
 
 	private static long REQUEST_ID_COUNT = 0;
 
+	public Request(long dummyID) {
+		super(dummyID);
+	}
+	
 	public Request(long userID, String title, String description, Instant endTime) {
-		super();
+		super(REQUEST_ID_COUNT++);
 		this.userID = userID;
-		this.requestID = REQUEST_ID_COUNT++;
 		this.title = title;
 		this.description = description;
 		this.endTime = endTime;
@@ -24,8 +26,8 @@ public class Request {
 		return userID;
 	}
 
-	public long getRequestID() {
-		return requestID;
+	public long getID() {
+		return id;
 	}
 
 	public String getTitle() {
