@@ -17,10 +17,6 @@ public class User extends Entity {
 		return username;
 	}
 
-	public long getUserID() {
-		return id;
-	}
-
 	public String getTelegramID() {
 		return telegramID;
 	}
