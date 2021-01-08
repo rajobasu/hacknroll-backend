@@ -15,6 +15,10 @@ public class LoginCheckerInterceptor implements HandlerInterceptor {
 //		logger.info(
 //				"Request URL::" + request.getRequestURL().toString() + ":: Start Time=" + System.currentTimeMillis());
 		if (request.getMethod().equalsIgnoreCase("POST")) {
+			if (request.getContextPath().equals("login") || request.getContextPath().equals("signup")) {
+				return true;
+			}
+			
 			long userID = Long.parseLong(request.getParameter("user_id"));
 			long accessToken = Long.parseLong(request.getParameter("access_token"));
 			return LoginHandler.getInstance().verifyAccessToken(userID, accessToken);

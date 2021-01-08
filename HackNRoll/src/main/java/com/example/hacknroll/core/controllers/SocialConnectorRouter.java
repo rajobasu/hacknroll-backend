@@ -16,7 +16,7 @@ import com.example.hacknroll.core.dataitems.Request;
 
 @RestController
 @RequestMapping("/social")
-public class Router {
+public class SocialConnectorRouter {
 	@RequestMapping(value = "/helloworld", method = GET)
 	@ResponseBody
 	public String index() {
