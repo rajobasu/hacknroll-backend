@@ -6,6 +6,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import java.time.Instant;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,7 +17,9 @@ import com.example.hacknroll.core.dataitems.Request;
 
 @RestController
 @RequestMapping("/social")
+@CrossOrigin(origins = "http://localhost:3000")
 public class SocialConnectorRouter {
+	
 	@RequestMapping(value = "/helloworld", method = GET)
 	@ResponseBody
 	public String index() {
@@ -35,8 +38,9 @@ public class SocialConnectorRouter {
 			e.printStackTrace();
 			throw e;
 		}
-
 	}
+	
+	
 
 	@RequestMapping("/remove")
 	@ResponseBody

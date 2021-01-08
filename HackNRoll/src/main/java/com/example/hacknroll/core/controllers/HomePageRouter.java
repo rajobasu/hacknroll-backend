@@ -1,5 +1,6 @@
 package com.example.hacknroll.core.controllers;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +13,7 @@ import com.example.hacknroll.core.dataitems.User;
 
 @RestController
 @RequestMapping("/")
+@CrossOrigin(origins = "http://localhost:3000")
 public class HomePageRouter {
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)

@@ -22,6 +22,7 @@ public class InMemoryUserDatabase extends UserDatabase {
 
 	@Override
 	synchronized public void addUser(User user) {
+		System.out.println(user);
 		userTable.put(user.getID(), user);
 		usernameUserIDTable.put(user.getUsername(), user.getID());
 	}
@@ -34,7 +35,11 @@ public class InMemoryUserDatabase extends UserDatabase {
 
 	@Override
 	public User getUserInfo(String id) {
-		return getUserInfo(usernameUserIDTable.get(id));
+		try {
+			return getUserInfo(usernameUserIDTable.get(id));
+		} catch(Exception e) {
+			return null;
+		}
 	}
 
 }

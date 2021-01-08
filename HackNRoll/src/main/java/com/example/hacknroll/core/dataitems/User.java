@@ -40,4 +40,9 @@ public class User extends Entity {
 	public boolean validatePassword(String password) {
 		return password.equals(this.password);
 	}
+	
+	@Override
+	public String toString() {
+		return username + ":" + telegramID + ":" + password + ":" + id;
+	}
 }
