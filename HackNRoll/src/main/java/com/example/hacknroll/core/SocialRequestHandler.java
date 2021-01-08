@@ -4,12 +4,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.example.hacknroll.core.database.InMemoryRequestDatabase;
+import com.example.hacknroll.core.database.InMemoryUserDatabase;
+import com.example.hacknroll.core.database.RequestDatabase;
 import com.example.hacknroll.core.database.UserDatabase;
 import com.example.hacknroll.core.dataitems.Request;
 import com.example.hacknroll.core.dataitems.User;
 
 public class SocialRequestHandler {
 	private RequestDatabase requestDB;
+	private LoginHandler loginHandler;
 	private UserDatabase userDB;
 
 	private static SocialRequestHandler instance;
@@ -19,42 +22,12 @@ public class SocialRequestHandler {
 		this.requestDB.initDatabase();
 		this.userDB = db2;
 		this.userDB.initDatabase();
+		this.loginHandler = LoginHandler.getInstance();
 	}
 
 	public static SocialRequestHandler getInstance() {
 		if (instance == null) {
-			instance = new SocialRequestHandler(new InMemoryRequestDatabase(), new UserDatabase() {
-
-				@Override
-				public void initDatabase() {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void logoutUser() {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void loginUser() {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public User getUserInfo() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				@Override
-				public void addUser(User user) {
-					// TODO Auto-generated method stub
-
-				}
-			});
+			instance = new SocialRequestHandler(new InMemoryRequestDatabase(), UserDatabase.getInstance());
 		}
 		return instance;
 	}
@@ -82,5 +55,9 @@ public class SocialRequestHandler {
 			get.add(x);
 		}
 		return get;
+	}
+
+	public void login(String username, String password) {
+		this.loginHandler.login(username, password);
 	}
 }

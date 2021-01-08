@@ -2,12 +2,19 @@ package com.example.hacknroll.core.database;
 
 import com.example.hacknroll.core.dataitems.User;
 
-public interface UserDatabase extends Database {
-	void addUser(User user);
+public abstract class UserDatabase implements Database {
 
-	void loginUser();
+	protected UserDatabase() {
 
-	void logoutUser();
+	}
 
-	User getUserInfo();
+	public abstract void addUser(User user);
+
+	public abstract User getUserInfo(long id);
+
+	public abstract User getUserInfo(String id);
+
+	public static UserDatabase getInstance() {
+		return new InMemoryUserDatabase();
+	}
 }

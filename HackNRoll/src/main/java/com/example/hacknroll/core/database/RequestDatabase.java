@@ -1,9 +1,8 @@
-package com.example.hacknroll.core;
+package com.example.hacknroll.core.database;
 
 import java.util.List;
 import java.util.SortedSet;
 
-import com.example.hacknroll.core.database.Database;
 import com.example.hacknroll.core.dataitems.Match;
 import com.example.hacknroll.core.dataitems.Request;
 

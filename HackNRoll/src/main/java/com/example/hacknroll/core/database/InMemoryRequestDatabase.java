@@ -6,7 +6,6 @@ import java.util.SortedSet;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.stream.Collectors;
 
-import com.example.hacknroll.core.RequestDatabase;
 import com.example.hacknroll.core.dataitems.Match;
 import com.example.hacknroll.core.dataitems.Request;
 
