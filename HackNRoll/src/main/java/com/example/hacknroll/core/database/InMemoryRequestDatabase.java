@@ -1,4 +1,4 @@
-package com.example.hacknroll.core;
+package com.example.hacknroll.core.database;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -6,6 +6,8 @@ import java.util.SortedSet;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.stream.Collectors;
 
+import com.example.hacknroll.core.RequestDatabase;
+import com.example.hacknroll.core.dataitems.Match;
 import com.example.hacknroll.core.dataitems.Request;
 
 public class InMemoryRequestDatabase implements RequestDatabase {
@@ -43,7 +45,7 @@ public class InMemoryRequestDatabase implements RequestDatabase {
 
 	@Override
 	public void initDatabase() {
-		
+
 		activeRequests = new ConcurrentSkipListSet<>((x, y) -> (int) Math.signum(x.getID() - y.getID()));
 		matchesSortedByRequestID = new ConcurrentSkipListSet<>(
 				(x, y) -> (int) Math.signum(x.getUserID() - y.getUserID()));

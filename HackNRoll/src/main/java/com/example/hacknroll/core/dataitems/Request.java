@@ -2,20 +2,17 @@ package com.example.hacknroll.core.dataitems;
 
 import java.time.Instant;
 
-public class Request extends Entity{
+public class Request extends Entity {
 	private long userID;
 	private String title;
 	private String description;
 	private Instant endTime;
 
-	private static long REQUEST_ID_COUNT = 0;
-
-	public Request(long dummyID) {
-		super(dummyID);
+	public Request(long id) {
+		super(id);
 	}
-	
+
 	public Request(long userID, String title, String description, Instant endTime) {
-		super(REQUEST_ID_COUNT++);
 		this.userID = userID;
 		this.title = title;
 		this.description = description;
