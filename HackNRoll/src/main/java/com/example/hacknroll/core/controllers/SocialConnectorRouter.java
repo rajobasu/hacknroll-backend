@@ -37,6 +37,21 @@ public class SocialConnectorRouter {
 	 * @param userID
 	 * @return
 	 */
+	@RequestMapping(value = "/addcat", method = POST)
+	@ResponseBody
+	public Request addNewRequest(@RequestParam("title") String title, @RequestParam("description") String description,
+			@RequestParam("user_id") long userID, @RequestParam("category")String category) {
+
+		Request toAdd = new Request(userID, title, description, Instant.now().plusSeconds(84094802), category);
+
+		try {
+			return SocialRequestHandler.getInstance().addRequest(toAdd);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	
 	@RequestMapping(value = "/add", method = POST)
 	@ResponseBody
 	public Request addNewRequest(@RequestParam("title") String title, @RequestParam("description") String description,
@@ -122,6 +137,14 @@ public class SocialConnectorRouter {
 	@ResponseBody
 	public List<Request> search(@RequestParam("user_id") long userID) {
 		var y = SocialRequestHandler.getInstance().search().stream().filter(x -> x.getUserID() != userID)
+				.collect(Collectors.toCollection(LinkedList::new));
+		return y;
+	}
+	
+	@RequestMapping(value = "/searchcat", method = POST)
+	@ResponseBody
+	public List<Request> search(@RequestParam("user_id") long userID, @RequestParam("category") String category) {
+		var y = SocialRequestHandler.getInstance().search(category).stream().filter(x -> x.getUserID() != userID)
 				.collect(Collectors.toCollection(LinkedList::new));
 		return y;
 	}

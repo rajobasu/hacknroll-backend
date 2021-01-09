@@ -38,13 +38,17 @@ public class InMemoryItemDatabase extends ItemDatabase {
 		// TODO Auto-generated method stub
 		return allItems.stream().filter(x -> x.getItemCreatedBy().getID() == id)
 				.collect(Collectors.toCollection(LinkedList::new));
-
 	}
-
+	
 	@Override
 	public void initDatabase() {
 		allItems = new LinkedList<>();
 
+	}
+
+	@Override
+	public List<Item> search(String... params) {
+		return allItems;
 	}
 
 }

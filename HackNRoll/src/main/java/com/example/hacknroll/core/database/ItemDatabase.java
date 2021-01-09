@@ -9,12 +9,13 @@ public abstract class ItemDatabase implements Database {
 	private static ItemDatabase INSTANCE;
 
 	protected ItemDatabase() {
-
+		initDatabase();
 	}
 
 	public static ItemDatabase getItemDatabase() {
 		if (INSTANCE == null)
 			INSTANCE = new InMemoryItemDatabase();
+		
 		return INSTANCE;
 	}
 
@@ -25,4 +26,6 @@ public abstract class ItemDatabase implements Database {
 	abstract public Item getItemByID(long itemid);
 
 	abstract public List<Item> getItemsCreatedBy(long id);
+	
+	abstract public List<Item> search(String... params);
 }

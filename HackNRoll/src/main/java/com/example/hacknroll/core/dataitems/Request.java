@@ -10,17 +10,23 @@ public class Request extends Entity {
 	private String description;
 	private Instant endTime;
 	private List<User> usersMatched;
+	private String category;
 
 	public Request(long id) {
 		super(id);
 	}
 
-	public Request(long userID, String title, String description, Instant endTime) {
+	public Request(long userID, String title, String description, Instant endTime, String category) {
 		this.userID = userID;
 		this.title = title;
 		this.description = description;
 		this.endTime = endTime;
 		this.usersMatched = new LinkedList<>();
+		this.category = category;
+	}
+
+	public Request(long userID, String title, String description, Instant endTime) {
+		this(userID, title, description, endTime, "");
 	}
 
 	public long getUserID() {
@@ -58,5 +64,9 @@ public class Request extends Entity {
 
 	public List<User> getUsersMatched() {
 		return usersMatched;
+	}
+
+	public String getCategory() {
+		return category;
 	}
 }

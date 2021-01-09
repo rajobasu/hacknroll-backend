@@ -17,6 +17,10 @@ public class User extends Entity {
 		return username;
 	}
 
+	public long getUserID() {
+		return id;
+	}
+
 	public String getTelegramID() {
 		return telegramID;
 	}
@@ -39,10 +43,5 @@ public class User extends Entity {
 
 	public boolean validatePassword(String password) {
 		return password.equals(this.password);
-	}
-	
-	@Override
-	public String toString() {
-		return username + ":" + telegramID + ":" + password + ":" + id;
 	}
 }

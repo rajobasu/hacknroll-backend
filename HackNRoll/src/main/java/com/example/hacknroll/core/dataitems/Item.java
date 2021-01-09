@@ -7,6 +7,7 @@ public class Item extends Entity {
 	private String description;
 	private User itemCreatedBy;
 	private User takenBy;
+	private boolean available;
 
 	public Item(String name, String description, long id) {
 		this.name = name;
@@ -37,5 +38,10 @@ public class Item extends Entity {
 
 	public void take(User userInfo) {
 		this.takenBy = userInfo;
+	}
+
+	public boolean getAvailable() {
+		// TODO Auto-generated method stub
+		return available;
 	}
 }

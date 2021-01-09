@@ -2,6 +2,7 @@ package com.example.hacknroll.core;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.example.hacknroll.core.database.RequestDatabase;
 import com.example.hacknroll.core.database.UserDatabase;
@@ -47,11 +48,14 @@ public class SocialRequestHandler {
 	}
 
 	public List<Request> search() {
-		List<Request> get = new LinkedList<>();
-		for (var x : requestDB.searchRequest()) {
-			get.add(x);
-		}
-		return get;
+		return requestDB.searchRequest().stream().collect(Collectors.toCollection(LinkedList::new));
+	
+	}
+
+	public List<Request> search(String category) {
+		return requestDB.searchRequest().stream().filter(x -> x.getCategory().equalsIgnoreCase(category))
+				.collect(Collectors.toCollection(LinkedList::new));
+
 	}
 
 	public void login(String username, String password) {

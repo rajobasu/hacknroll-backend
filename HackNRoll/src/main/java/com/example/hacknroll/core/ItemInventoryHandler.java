@@ -1,8 +1,13 @@
 package com.example.hacknroll.core;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.example.hacknroll.core.database.ItemDatabase;
 import com.example.hacknroll.core.database.UserDatabase;
 import com.example.hacknroll.core.dataitems.Item;
+import com.example.hacknroll.core.dataitems.User;
 
 public class ItemInventoryHandler {
 	private ItemDatabase itemDB;
@@ -31,6 +36,27 @@ public class ItemInventoryHandler {
 		}
 		return true;
 	}
-	
-	
+
+	public List<Item> search(String... params) {
+		return itemDB.search();
+	}
+
+	public List<Item> getByUserIDAvailable(long userid) {
+		return itemDB.getItemsCreatedBy(userid).stream().filter(x -> x.getAvailable())
+				.collect(Collectors.toCollection(LinkedList::new));
+	}
+
+	public List<Item> getByUserIDUnAvailable(long userID) {
+		return itemDB.getItemsCreatedBy(userID).stream().filter(x -> !x.getAvailable())
+				.collect(Collectors.toCollection(LinkedList::new));
+	}
+
+	public List<Item> getUnmatched() {
+		return search().stream().filter(x -> !x.isTaken()).collect(Collectors.toCollection(LinkedList::new));
+	}
+
+	public void unmatch(long itemID) {
+		Item item = itemDB.getItemByID(itemID);
+		return;
+	}
 }
