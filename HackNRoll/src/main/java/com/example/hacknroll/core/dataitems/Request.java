@@ -1,12 +1,15 @@
 package com.example.hacknroll.core.dataitems;
 
 import java.time.Instant;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Request extends Entity {
 	private long userID;
 	private String title;
 	private String description;
 	private Instant endTime;
+	private List<User> usersMatched;
 
 	public Request(long id) {
 		super(id);
@@ -17,6 +20,7 @@ public class Request extends Entity {
 		this.title = title;
 		this.description = description;
 		this.endTime = endTime;
+		this.usersMatched = new LinkedList<>();
 	}
 
 	public long getUserID() {
@@ -41,6 +45,18 @@ public class Request extends Entity {
 
 	@Override
 	public String toString() {
-		return "RESPONSE : " + title + ":" + description + ":" + endTime;
+		return "RESPONSE : " + title + ":" + description + ":" + endTime + " : " + userID;
+	}
+
+	public void match(User user) {
+		usersMatched.add(user);
+	}
+
+	public void unmatch(User user) {
+		usersMatched.remove(user);
+	}
+
+	public List<User> getUsersMatched() {
+		return usersMatched;
 	}
 }

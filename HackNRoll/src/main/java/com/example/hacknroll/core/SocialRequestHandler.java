@@ -3,10 +3,9 @@ package com.example.hacknroll.core;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.example.hacknroll.core.database.InMemoryRequestDatabase;
-import com.example.hacknroll.core.database.InMemoryUserDatabase;
 import com.example.hacknroll.core.database.RequestDatabase;
 import com.example.hacknroll.core.database.UserDatabase;
+import com.example.hacknroll.core.dataitems.Match;
 import com.example.hacknroll.core.dataitems.Request;
 import com.example.hacknroll.core.dataitems.User;
 
@@ -19,15 +18,13 @@ public class SocialRequestHandler {
 
 	private SocialRequestHandler(RequestDatabase db, UserDatabase db2) {
 		this.requestDB = db;
-		this.requestDB.initDatabase();
 		this.userDB = db2;
-		this.userDB.initDatabase();
 		this.loginHandler = LoginHandler.getInstance();
 	}
 
 	public static SocialRequestHandler getInstance() {
 		if (instance == null) {
-			instance = new SocialRequestHandler(new InMemoryRequestDatabase(), UserDatabase.getInstance());
+			instance = new SocialRequestHandler(RequestDatabase.getInstance(), UserDatabase.getInstance());
 		}
 		return instance;
 	}
@@ -72,4 +69,20 @@ public class SocialRequestHandler {
 	public List<Request> getMatchesByUserID(long id) {
 		return this.requestDB.searchMatchByUserID(id);
 	}
+
+	public void match(long requestID, long userID) {
+		Request r = requestDB.getRequestByID(requestID);
+		User u = userDB.getUserInfo(userID);
+		System.out.println(r + "  = : = " + u);
+		requestDB.addPairing(new Match(r, u));
+		r.match(u);
+	}
+
+	public void unmatch(long requestID, long userID) {
+		Request r = requestDB.getRequestByID(requestID);
+		User u = userDB.getUserInfo(userID);
+		requestDB.removePairing(new Match(r, u));
+		r.unmatch(u);
+	}
+
 }

@@ -16,6 +16,7 @@ public class InMemoryUserDatabase extends UserDatabase {
 
 	@Override
 	public void initDatabase() {
+		System.out.println("sfklashdfask INIT CALLED");
 		userTable = new Hashtable<>();
 		usernameUserIDTable = new Hashtable<>();
 	}

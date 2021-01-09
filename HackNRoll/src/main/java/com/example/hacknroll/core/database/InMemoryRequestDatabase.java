@@ -12,14 +12,15 @@ import com.example.hacknroll.core.dataitems.Match;
 import com.example.hacknroll.core.dataitems.Request;
 import com.example.hacknroll.core.dataitems.User;
 
-public class InMemoryRequestDatabase implements RequestDatabase {
+public class InMemoryRequestDatabase extends RequestDatabase {
 
 	private ConcurrentSkipListSet<Match> matchesSortedByUserID;
 	private ConcurrentSkipListSet<Match> matchesSortedByRequestID;
+
 	private ConcurrentSkipListSet<Request> activeRequests;
 
 	private Map<Long, Request> map;
-	
+
 	@Override
 	synchronized public void addRequest(Request request) {
 		activeRequests.add(request);
@@ -39,7 +40,12 @@ public class InMemoryRequestDatabase implements RequestDatabase {
 
 	@Override
 	synchronized public void removeRequest(long id) {
-		activeRequests.ceiling(new Request(id));
+		Request r = activeRequests.ceiling(new Request(id));
+		activeRequests.remove(r);
+		for (var x : r.getUsersMatched()) {
+			removePairing(new Match(r, x));
+		}
+		map.remove(r.getID());
 	}
 
 	@Override
@@ -52,8 +58,7 @@ public class InMemoryRequestDatabase implements RequestDatabase {
 	public void initDatabase() {
 
 		activeRequests = new ConcurrentSkipListSet<>((x, y) -> (int) Math.signum(x.getID() - y.getID()));
-		matchesSortedByRequestID = new ConcurrentSkipListSet<>(
-				(x, y) -> (int) Math.signum(x.getUserID() - y.getUserID()));
+		matchesSortedByUserID = new ConcurrentSkipListSet<>((x, y) -> (int) Math.signum(x.getUserID() - y.getUserID()));
 
 		matchesSortedByRequestID = new ConcurrentSkipListSet<>(
 				(x, y) -> (int) Math.signum(x.getRequestID() - y.getRequestID()));
@@ -62,19 +67,27 @@ public class InMemoryRequestDatabase implements RequestDatabase {
 
 	@Override
 	public List<Request> searchMatchByUserID(long userID) {
-		return matchesSortedByUserID.stream().filter(x -> x.getUserID() == userID)
-				.map(x -> map.get(x.getRequestID())).collect(Collectors.toCollection(LinkedList::new));
+		return matchesSortedByUserID.stream().filter(x -> x.getUserID() == userID).map(x -> map.get(x.getRequestID()))
+				.collect(Collectors.toCollection(LinkedList::new));
 	}
 
 	@Override
 	public List<User> searchMatchByRequestID(long requestID) {
-		
-		return matchesSortedByRequestID.stream().filter(x -> x.getRequestID() == requestID).map(x -> UserDatabase.getInstance().getUserInfo(x.getUserID()))
+
+		return matchesSortedByRequestID.stream().filter(x -> x.getRequestID() == requestID)
+				.map(x -> UserDatabase.getInstance().getUserInfo(x.getUserID()))
 				.collect(Collectors.toCollection(LinkedList::new));
 	}
-	
+
 	@Override
 	public List<Request> searchRequestsByUserID(long userID) {
-		return activeRequests.stream().filter(x -> x.getUserID() == userID).collect(Collectors.toCollection(LinkedList::new));
+		return activeRequests.stream().filter(x -> x.getUserID() == userID)
+				.collect(Collectors.toCollection(LinkedList::new));
 	}
+
+	@Override
+	public Request getRequestByID(long requestID) {
+		return map.get(requestID);
+	}
+
 }

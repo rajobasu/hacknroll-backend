@@ -23,10 +23,11 @@ public class LoginHandler {
 
 	public AccessToken login(String username, String password) {
 		User user = userDB.getUserInfo(username);
+		System.out.println("LOGIN ATTEMPT : " + username + " " + password + " " + user);
 		if (user == null) {
 			return null;
 		} else if (user.login(password)) {
-			
+
 			long x = generateAccessToken();
 			accessTokens.put(user.getID(), x);
 			return new AccessToken(x, user);

@@ -11,18 +11,18 @@ import com.example.hacknroll.core.LoginHandler;
 @Component
 public class LoginCheckerInterceptor implements HandlerInterceptor {
 	private void addHeaderInfo(HttpServletResponse response, boolean... x) {
-		System.out.println(response.getHeaderNames());
-		System.out.println(response.getHeaders("Access-Control-Allow-Credentials"));
-		
-		response.addHeader("Access-Control-Allow-Credentials","true");
-		System.out.println(response.getHeaders("Access-Control-Allow-Credentials"));
-		
+		// System.out.println(response.getHeaderNames());
+		// System.out.println(response.getHeaders("Access-Control-Allow-Credentials"));
+
+		response.addHeader("Access-Control-Allow-Credentials", "true");
+//		ystem.out.println(response.getHeaders("Access-Control-Allow-Credentials"));
+
 	}
-	
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		
+
 		addHeaderInfo(response);
 //		long startTime = System.currentTimeMillis();
 //		logger.info(

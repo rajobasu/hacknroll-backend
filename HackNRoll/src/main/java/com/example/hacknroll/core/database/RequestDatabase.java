@@ -7,20 +7,34 @@ import com.example.hacknroll.core.dataitems.Match;
 import com.example.hacknroll.core.dataitems.Request;
 import com.example.hacknroll.core.dataitems.User;
 
-public interface RequestDatabase extends Database {
-	void addRequest(Request request);
+public abstract class RequestDatabase implements Database {
+	private static RequestDatabase INSTANCE;
 
-	void addPairing(Match match);
+	protected RequestDatabase() {
+		initDatabase();
+	}
 
-	SortedSet<Request> searchRequest(String... s);
+	public static RequestDatabase getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new InMemoryRequestDatabase();
+		return INSTANCE;
+	}
 
-	void removeRequest(long id);
+	public abstract void addRequest(Request request);
 
-	void removePairing(Match match);
+	public abstract void addPairing(Match match);
 
-	List<Request> searchMatchByUserID(long userID);
+	public abstract SortedSet<Request> searchRequest(String... s);
 
-	List<User> searchMatchByRequestID(long requestID);
+	public abstract void removeRequest(long id);
 
-	List<Request> searchRequestsByUserID(long userID);
+	public abstract void removePairing(Match match);
+
+	public abstract List<Request> searchMatchByUserID(long userID);
+
+	public abstract List<User> searchMatchByRequestID(long requestID);
+
+	public abstract List<Request> searchRequestsByUserID(long userID);
+
+	public abstract Request getRequestByID(long requestID);
 }
